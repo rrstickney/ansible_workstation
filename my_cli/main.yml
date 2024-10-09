@@ -1,0 +1,24 @@
+---
+# Installs required packages for this playbook to work
+- import_playbook: ../new_system/main.yml
+
+- name: Setup the CLI just the way I like it
+  hosts: localhost
+  become: false
+  pre_tasks:
+    - name: Install galaxy collections
+      command:
+        cmd: "ansible-galaxy collection install community.general"
+      changed_when: false
+      delegate_to: localhost
+
+    - name: update apt cache
+      become: true
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  tasks:
+    - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/starship.yml
+    - import_tasks: tasks/dotfiles.yml
