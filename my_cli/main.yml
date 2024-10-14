@@ -3,7 +3,7 @@
 - import_playbook: ../new_system/main.yml
 
 - name: Setup the CLI just the way I like it
-  hosts: localhost
+  hosts: all
   become: false
   pre_tasks:
     - name: Install galaxy collections

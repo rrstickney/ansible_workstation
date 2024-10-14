@@ -1,6 +1,6 @@
 ---
 - name: install the basics to get things going
-  hosts: localhost
+  hosts: all 
   become: true
   pre_tasks:
     - name: update apt cache

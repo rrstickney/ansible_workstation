@@ -1,0 +1,16 @@
+---
+- name: create wallpapers directory
+  file:
+    path: {{ ansible_env.HOME }}/Pictures/Wallpapers
+    state: directory
+
+- name: copy wallpaper file
+  copy:
+    src: files/icestation_wallpaper.png
+    dest: {{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png
+   
+- name: set desktop wallpaper
+  become_user: me
+  dconf: 
+    key: "/org/gnome/desktop/background/picture-uri" 
+    value: "'file:///{{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png'"
