@@ -1,0 +1,32 @@
+---
+- name: install apt packages
+  packages:
+    - name: "{{ item.name }}"
+      state: present
+  with_items:
+    # for gtk themes to look a certain way
+    - name: gtk2-engines-murrine
+    # xfs tools
+    - name: xfs-utils
+    - name: xfsprogs
+    # browsers
+    - name: firefox
+    - name: chrome
+    - name: brave
+    # terminal emulators
+    - name: alacritty
+    # - name: ghostty
+    #
+
+- name: install snap packages
+  snap:
+    - name: "{{ item.name }}"
+      state: present
+  with_items:
+    # VS Code
+    - name: code
+    # blue mail
+    - name: bluemail
+    # prusaslicer
+    - name: prusa-slicer
+    #

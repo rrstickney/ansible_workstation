@@ -6,11 +6,41 @@
 
 - name: copy wallpaper file
   copy:
-    src: files/icestation_wallpaper.png
-    dest: {{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png
-   
-- name: set desktop wallpaper
+    src: files/icestation_logo_wallpaper.png
+    dest: "{{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png"
+
+- name: set gnome themes
+  
+
+- name: set all the gnome settings with dconf
   become_user: me
-  dconf: 
-    key: "/org/gnome/desktop/background/picture-uri" 
-    value: "'file:///{{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png'"
+  dconf:
+    key: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items:
+    # set desktop wallpaper to use icestation logo wallpaper
+    - name: "/org/gnome/desktop/background/picture-uri"
+      value: "'file:///{{ ansible_env.HOME }}/Pictures/Wallpapers/icestation_logo_wallpaper.png'"
+    # disable edge tiling for window tiling
+    - name: "/org/gnome/mutter/edge-tiling" 
+      value: "false"
+    # enable auto window tiling
+    - name: "/org/gnome/shell/extensions/pop-shell/tile-by-default"
+      value: true
+    # set color scheme to prefer-dark
+    - name: "/org/gnome/desktop/interface/color-scheme"
+      value: "prefer-dark"
+    # set gtk-theme
+    - name: "/org/gnome/desktop/interface/gtk-them"
+      value: "Pop-dark"
+    # disable the dock
+    - name: "/org/gnome/shell/extensions/dash-to-dock/manualhide"
+      value: "true"
+    # add 4 fixed workspaces
+    - name: "/org/gnome/desktop/wm/preferences/num-workspaces"
+      value: "4"
+    # move the workspace picker to the left
+    - name: "/org/gnome/shell/extensions/pop-cosmic/workspace-picker-left"
+      value: "true"
+    #
+
